@@ -1,6 +1,7 @@
 import { BlueButton, RedInput } from "./BoardWrite.styles";
+import { IBoardWriteUIProps } from "./BoardWriteTypes";
 
-export default function BoardWriteUI(props) {
+export default function BoardWriteUI(props: IBoardWriteUIProps) {
   return (
     <>
       이름
@@ -25,9 +26,6 @@ export default function BoardWriteUI(props) {
       />
       <br />
       <BlueButton
-        qqq="yellow"
-        rrr="15px"
-        zzz={props.mycolor}
         onClick={props.isEdit ? props.onClickUpdate : props.onClickSubmit}
       >
         {props.isEdit ? "수정" : "등록"}하기
