@@ -1,31 +1,37 @@
 import { gql, useQuery } from "@apollo/client";
-import type{ IQuery, IQueryFetchBoardsArgs } from "../../../src/commons/types/generated/types";
+import {
+  IQuery,
+  IQueryFetchBoardsArgs,
+} from "../../../src/commons/types/generated/types";
 import { MouseEvent } from "react";
 
 const FETCH_BOARDS = gql`
-  query fetchBoards($page: Int){
+  query fetchBoards($page: Int) {
     fetchBoards(page: $page) {
       _id
       writer
       title
       contents
     }
-  } 
+  }
 `;
 
-export default function StaticRoutingMovePage():JSX.Element {
-  const { data, refetch } = useQuery<Pick<IQuery, "fetchBoards">, IQueryFetchBoardsArgs>(FETCH_BOARDS);
-  console.log(data?.fetchBoards);
+export default function StaticRoutingMovePage(): JSX.Element {
+  const { data, refetch } = useQuery<
+    Pick<IQuery, "fetchBoards">,
+    IQueryFetchBoardsArgs
+  >(FETCH_BOARDS);
+  const onClickPage = (event: MouseEvent<HTMLSpanElement>): void => {
+    void refetch({ page: Number(event?.currentTarget.id) });
+  };
 
-  const onClickPage = (event: MouseEvent<HTMLSpanElement>):void => {
-    void refetch({ page: Number(event.currentTarget.id) })
-  }
-  // const onClickPage2 = ():void => {
-  //   void refetch({ page: 2 })
-  // }
-  // const onClickPage3 = ():void => {
-  //   void refetch({ page: 3 })
-  // }
+  // const onClickPage2 = (): void => {
+  //   void refetch({ page: 2 });
+  // };
+
+  // const onClickPage3 = (): void => {
+  //   void refetch({ page: 3 });
+  // };
 
   return (
     <>
@@ -36,23 +42,27 @@ export default function StaticRoutingMovePage():JSX.Element {
         </div>
       ))}
 
-      {
-        new Array(10).fill(1).map((_, index) => (
-          <span key={index+1} id={String(index+1)} onClick={onClickPage}>{index+1}</span>
-        ))
-      } 
+      {new Array(10).fill(1).map((_, index) => (
+        <span key={index + 1} id={String(index + 1)} onClick={onClickPage}>
+          {index + 1}
+        </span>
+      ))}
 
+      {/* {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, index) => (
+        <span key={index + 1} id={String(index + 1)} onClick={onClickPage}>
+          {index + 1}
+        </span>
+      ))} */}
 
-      {/* {
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
-          <span key={index+1} id={String(index+1)} onClick={onClickPage}>{index+1}</span>
-        ))
-      } */}
-
-      {/* <span id="1" onClick={onClickPage}>1</span>
-      <span id="2" onClick={onClickPage}>2</span>
-      <span id="3" onClick={onClickPage}>3</span>
-       */}
+      {/* <span id="1" onClick={onClickPage}>
+        1
+      </span>
+      <span id="2" onClick={onClickPage}>
+        2
+      </span>
+      <span id="3" onClick={onClickPage}>
+        3
+      </span> */}
     </>
   );
 }
