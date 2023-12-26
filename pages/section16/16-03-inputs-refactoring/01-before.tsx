@@ -17,7 +17,7 @@ export default function GraphqlMutationPage(): JSX.Element {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
 
-  const onClickSubmit = async () => {
+  const onClickSubmit = async (): void => {
     const result = await 나의함수({
       variables: {
         // variables = $
