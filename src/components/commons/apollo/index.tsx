@@ -5,19 +5,25 @@ import {
   ApolloLink,
 } from "@apollo/client";
 import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
+import { useRecoilState } from "recoil";
+import { accessTokenState } from "../../../commons/stores";
+
+const GLOBAL_STATE = new InMemoryCache();
 
 interface IApolloSettingProps {
   children: JSX.Element;
 }
 
 export default function ApolloSetting(props: IApolloSettingProps): JSX.Element {
+  const [accessToken] = useRecoilState(accessTokenState);
   const uploadLink = createUploadLink({
     uri: "http://backend-practice.codebootcamp.co.kr/graphql",
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   const client = new ApolloClient({
     link: ApolloLink.from([uploadLink]),
-    cache: new InMemoryCache(), // 컴퓨터의 메모리에 백엔드에서 받아온 데이터 임시로 저장해놓기
+    cache: GLOBAL_STATE,
   });
 
   // prettier-ignore
