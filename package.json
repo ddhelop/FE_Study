@@ -52,5 +52,8 @@
     "eslint-prettier": "^0.0.0-empty",
     "prettier": "3.0.3",
     "typescript": "*"
+  },
+  "resolutions": {
+    "@types/react": "17.0.2"
   }
 }
