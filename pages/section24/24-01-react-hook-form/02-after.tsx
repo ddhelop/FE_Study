@@ -21,7 +21,7 @@ export default function GraphqlMutationPage(): JSX.Element {
       제목 : <input type="text" {...register("title")} />
       내용 : <input type="text" {...register("contents")} />
       주소 : <input type="text" {...register("boardAddress.addressDetail")} />
-      <button>GRAPHQL-API 요청하기</button>
+      <button>요청하기</button>
     </form>
   );
 }
