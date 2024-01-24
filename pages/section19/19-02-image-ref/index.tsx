@@ -25,7 +25,7 @@ export default function ImageUploadPage(): JSX.Element {
   const onChangeFile = async (
     event: ChangeEvent<HTMLInputElement>,
   ): Promise<void> => {
-    const file = event.target.files?.[0]; // 배열로 들어오는 이유: <input type="file" multiple />일 때 여러개 드래그 가능
+    const file = event.target.files?.[0]; // 배열로 들어오는 이유: <input type="file" multiple /> 일때 여러개 드래그 가능
     console.log(file);
 
     const result = await uploadFile({ variables: { file } });
@@ -39,12 +39,12 @@ export default function ImageUploadPage(): JSX.Element {
   };
 
   return (
-    <>
+    <div>
       <div
-        style={{ width: "100px", height: "100px", background: "gray" }}
+        style={{ width: "100px", height: "50px", backgroundColor: "gray" }}
         onClick={onClickImage}
       >
-        이미지선택
+        이미지 선택
       </div>
       <input
         style={{ display: "none" }}
@@ -53,6 +53,6 @@ export default function ImageUploadPage(): JSX.Element {
         ref={fileRef}
       />
       <img src={`https://storage.googleapis.com/${imageUrl}`} />
-    </>
+    </div>
   );
 }
