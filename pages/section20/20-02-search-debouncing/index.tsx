@@ -3,8 +3,7 @@ import {
   IQuery,
   IQueryFetchBoardsArgs,
 } from "../../../src/commons/types/generated/types";
-import { ChangeEvent, MouseEvent } from "react";
-import _ from "lodash";
+import { ChangeEvent, MouseEvent, useState } from "react";
 
 const FETCH_BOARDS = gql`
   query fetchBoards($page: Int, $search: String) {
@@ -18,7 +17,7 @@ const FETCH_BOARDS = gql`
 `;
 
 export default function StaticRoutingMovePage(): JSX.Element {
-  // const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const { data, refetch } = useQuery<
     Pick<IQuery, "fetchBoards">,
     IQueryFetchBoardsArgs
@@ -29,13 +28,8 @@ export default function StaticRoutingMovePage(): JSX.Element {
     void refetch({ page: Number(event?.currentTarget.id) });
   };
 
-  const getDebounce = _.debounce((value) => {
-    void refetch({ search: value, page: 1 });
-  }, 500);
-
   const onChangeSearch = (event: ChangeEvent<HTMLInputElement>): void => {
-    // setSearch(event.currentTarget.value);
-    getDebounce(event.currentTarget.value);
+    setSearch(event.currentTarget.value);
   };
 
   // const onClickSearch = (): void => {

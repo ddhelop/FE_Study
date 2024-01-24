@@ -18,13 +18,13 @@ const FETCH_BOARDS = gql`
 
 export default function StaticRoutingMovePage(): JSX.Element {
   const [search, setSearch] = useState("");
+
   const { data, refetch } = useQuery<
     Pick<IQuery, "fetchBoards">,
     IQueryFetchBoardsArgs
   >(FETCH_BOARDS);
-
   const onClickPage = (event: MouseEvent<HTMLSpanElement>): void => {
-    // 검색에서 refetch를 할 때, search 검색어가 refetch에 이미 저장되어 있는 상태, 추가로 search 포함하지 않아도 됨.
+    // 검색에서 refetch할 때, search 검색어가 refetch에 이미 저장되어 있는 상태이므로 추가로 search 포함하지 않아도 됨.
     void refetch({ page: Number(event?.currentTarget.id) });
   };
 
@@ -32,8 +32,8 @@ export default function StaticRoutingMovePage(): JSX.Element {
     setSearch(event.currentTarget.value);
   };
 
-  const onClickSearch = (): void => {
-    void refetch({ search, page: 1 });
+  const onClickSearch = async (): Promise<void> => {
+    await refetch({ search, page: 1 });
   };
 
   return (
