@@ -17,7 +17,6 @@ const LOGIN_USER = gql`
 `;
 
 export default function LoginPage(): JSX.Element {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginUser] = useMutation<
@@ -26,6 +25,7 @@ export default function LoginPage(): JSX.Element {
   >(LOGIN_USER);
 
   const [, setAccessToken] = useRecoilState(accessTokenState);
+  const router = useRouter();
 
   const onChangeEmail = (event: ChangeEvent<HTMLInputElement>): void => {
     setEmail(event.currentTarget.value);
@@ -35,26 +35,23 @@ export default function LoginPage(): JSX.Element {
     setPassword(event.currentTarget.value);
   };
 
-  // 1. 로그인 뮤테이션 날려서 accessToken 받아오기
   const onClickLogin = async (): Promise<void> => {
     try {
+      // 1. 로그인 뮤테이션 날려서 accessToken 받아오기
       const result = await loginUser({
-        variables: {
-          email,
-          password,
-        },
+        variables: { email, password },
       });
       const accessToken = result.data?.loginUser.accessToken;
-      console.log(accessToken);
+      console.log(result.data?.loginUser.accessToken);
 
-      // 2. 받아온 accessToken을 globalState에 저장하기
+      // 2. 받아온 accessToken을 globalState에 연결
       if (accessToken === undefined) {
-        alert("로그인에 실패했습니다. 다시 시도 해주세요.");
+        alert("로그인에 실패했습니다.");
         return;
       }
       setAccessToken(accessToken);
 
-      // 3. 로그인 성공 페이지로 이동하기
+      // 3. 로그인 성공 패이지로 이동하기.
       void router.push("/section23/23-01-login-success");
     } catch (error) {
       if (error instanceof Error) alert(error.message);
@@ -62,10 +59,10 @@ export default function LoginPage(): JSX.Element {
   };
 
   return (
-    <>
-      이메일: <input type="text" onChange={onChangeEmail} />
-      비밀번호: <input type="password" onChange={onChangePassword} />
+    <div>
+      이메일 : <input type="text" onChange={onChangeEmail} />
+      비밀번호 : <input type="password" onChange={onChangePassword} />
       <button onClick={onClickLogin}>로그인</button>
-    </>
+    </div>
   );
 }
