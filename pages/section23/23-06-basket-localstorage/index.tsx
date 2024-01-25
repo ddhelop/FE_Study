@@ -41,6 +41,10 @@ export default function StaticRoutingMovePage(): JSX.Element {
     localStorage.setItem("baskets", JSON.stringify(baskets));
   };
 
+  // 만약 장바구니 페이지에서 가져오기도 만들고 싶다면 ...?
+  // localStorage.getItem() 오류
+  // 그러면 어떻게? useEffect 사용
+
   return (
     <>
       {data?.fetchBoards.map((el) => (
